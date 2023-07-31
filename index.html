@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		<h1>
+			Some Web Page
+			<div class="card">
+				<ul id="card-view">
+
+				</ul>
+			</div>
+		</h1>
+		
+		<script type="module">
+			// Import the functions you need from the SDKs you need
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+			import { getFirestore, doc, getDocs, collection } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
+			// TODO: Add SDKs for Firebase products that you want to use
+			// https://firebase.google.com/docs/web/setup#available-libraries
+		  
+			// Your web app's Firebase configuration
+			// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+			const firebaseConfig = {
+			  apiKey: "AIzaSyAkPIp6L1xpu-vrkWaiFlIVUEHkbSe9zOc",
+			  authDomain: "tpbshelf.firebaseapp.com",
+			  projectId: "tpbshelf",
+			  storageBucket: "tpbshelf.appspot.com",
+			  messagingSenderId: "865361177848",
+			  appId: "1:865361177848:web:b142979864936bd9d45f0d",
+			  measurementId: "G-2RDE7QWKT2"
+			};
+		  
+			// Initialize Firebase
+			const app = initializeApp(firebaseConfig);
+			const db = getFirestore(app);
+
+			// get data
+			const colRef = collection(db, "card");
+			const docsSnap = await getDocs(colRef);
+			docsSnap.forEach(doc => {
+				console.log(doc.data());
+
+				let data = doc.data();
+
+				// create card component
+				let inside = document.createElement("li");
+				let cardTitle = document.createElement("h5");
+				cardTitle.innerHTML = data.title;
+
+				let cardDesc = document.createElement("p");
+				cardDesc.innerHTML = data.description;
+
+				inside.appendChild(cardTitle);
+				inside.appendChild(cardDesc);
+
+				console.log(inside);
+
+				// show card
+				document.getElementById("card-view").appendChild(inside);
+
+			})
+		</script>
+		<script src="./script.js"></script>
+	</body>
+</html>
